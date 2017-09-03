@@ -9,9 +9,9 @@ namespace Biblioteka
     public class Izvodjac:PotencijalniIzvodjac
     {
 
-        DateTime vreme;
+        public  DateTime vreme;
         public int trajanjeNastupa;
-        Bina bina;
+        public Bina bina;
         public double honorar;
 
         public Izvodjac(DateTime vreme,
@@ -33,5 +33,16 @@ namespace Biblioteka
         public int TrajanjeNastupa { get => trajanjeNastupa; set => trajanjeNastupa = value; }
         public Bina Bina { get => bina; set => bina = value; }
         public double Honorar { get => honorar; set => honorar = value; }
+
+        public bool  daLiJeStranac ()
+        {
+            if (Zemlja.Equals("SRB"))
+                return false;
+            return true;
+
+        }
+
+
+
     }
 }
