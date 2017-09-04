@@ -60,6 +60,59 @@ namespace Konzola
 
 
 
+
+        //List<Bina> domacaBina()
+        //{
+        //    List<Bina> binice = new List<Bina>();
+        //    List<Bina> domaceBinice = new List<Bina>();
+        //    foreach (Dan d in programPoDanima)
+        //    {
+        //        foreach (Izvodjac i in d.SpisakIzvodjaca)
+        //        {
+        //            if (!binice.Contains(i.Bina))
+        //            {
+        //                binice.Add(i.Bina);
+        //            }
+        //        }
+        //    }
+
+        //    foreach (Bina b in binice)
+        //    {
+        //        Boolean srbin = true;
+        //        foreach (Dan d in programPoDanima)
+        //        {
+        //            foreach (Izvodjac i in d.SpisakIzvodjaca)
+        //            {
+        //                if (b.Naziv == i.Bina.Naziv)
+        //                {
+        //                    if (i.Zemlja == "Srbija")
+        //                    {
+        //                        if (srbin == false)
+        //                        {
+        //                            break;
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        if (srbin == true)
+        //        {
+        //            if (!domaceBinice.Contains(b))
+        //            {
+        //                domaceBinice.Add(b);
+        //            }
+        //        }
+        //    }
+
+
+        //    return domaceBinice;
+        //}
+
+
+
+
+
+
         /*
          
              List<Bina> lista = new List<Bina>();
@@ -175,13 +228,8 @@ namespace Konzola
                 {
                     foreach (Izvodjac i in d.spisakIzvodjaca)
                     {
-                        if (i.daLiJeStranac() && !lista.Contains(i.zemlja) && i.bina == bina && i.vreme == datum)
-                        {
-                            lista.Add(i.zemlja);
 
-                        }
-
-                    } 
+                    }
                 }
             }
 
@@ -191,6 +239,283 @@ namespace Konzola
 
 
         }
+
+
+
+        // 2. nazivi i kontakt telefoni pot. izvodjaca koji nisu odgovorili a poziv im je upucen pre vise od mesec dana 
+        public List<string> nazivBrojTel()
+        {
+            List<string> lista = new List<string>();
+            foreach (PotencijalniIzvodjac p in listaPotencijalnih)
+            {
+
+                if (p.Status==Status.NijeOdgovorio && (DateTime.Now- p.datumPoziva).TotalDays >30)
+                {
+                    lista.Add(p.naziv + "," + p.telefon);
+                }
+
+
+            }
+
+            return lista;
+        }
+
+
+
+        //8. 
+        public List<Izvodjac> izvodjaciSaRazlicitimHonorarom()
+        {
+
+            List<Izvodjac> lista = new List<Izvodjac>();
+
+
+            foreach (Dan d in programPoDanima)
+            {
+
+                foreach (Izvodjac i in d.spisakIzvodjaca)
+                {
+
+
+                }
+            }
+
+
+
+            return lista;
+
+        }
+
+
+        //19. vreme pocetka prvog nastupa i vreme zavrsetka poslednjeg nastupa idredheog datuma na odredjenoj bini 
+
+
+        public DateTime najkasniji(Bina bina)
+        {
+            DateTime n = DateTime.MinValue;
+            foreach (Dan d in programPoDanima)
+            {
+                foreach (Izvodjac i in d.spisakIzvodjaca)
+                {
+                    if (i.Vreme.AddMinutes(i.TrajanjeNastupa) > n)
+                    {
+                        n = i.Vreme.AddMinutes(i.TrajanjeNastupa);
+                    }
+                } 
+            }
+            return n;
+        }
+
+
+
+        public DateTime[] vremePocetkaIZavrsetka(DateTime datum, Bina bina)
+        {
+
+            DateTime prvi = DateTime.MinValue;
+            DateTime zadnji = DateTime.MaxValue;
+
+            foreach (Dan d in programPoDanima)
+            {
+                if (d.Datum==datum)
+                {
+
+                }
+            }
+
+            return null;
+        }
+
+
+
+
+        //18. 
+
+        public string metoda18(Vrsta v)
+        {
+            List<DateTime> datumi = new List<DateTime>();
+            List<double> cene = new List<double>();
+            string rez = "";
+
+            foreach (Dan d in programPoDanima)
+            {
+                if (d.Vrsta == v && !datumi.Contains(d.Datum))
+                {
+                    datumi.Add(d.Datum);
+                }
+            }
+
+            for (int i = 0; i < datumi.Count; i++)
+            {
+                for (int j = 0; j < datumi.Count; j++)
+                {
+                    if (datumi[i] > datumi[j])
+                    {
+                        DateTime pom = datumi[i];
+                        datumi[i] = datumi[j];
+                        datumi[j] = pom;
+                    }
+                }
+            }
+
+            foreach (DateTime d in datumi)
+            {
+                foreach (Dan da in programPoDanima)
+                {
+                    if (d == da.Datum)
+                    {
+                        cene.Add(da.Cena);
+                    }
+                }
+            }
+            bool rastuce = false;
+
+            for (int i = 0; i < cene.Count - 1; i++)
+            {
+
+                if (cene[i] <= cene[i + 1])
+                {
+                    rastuce = true;
+                }
+                else
+                {
+                    rastuce = false;
+                    break;
+                }
+            }
+            if (rastuce == true) return rez = "rastuce";
+
+            bool opadajuce = false;
+            for (int i = 0; i < cene.Count - 1; i++)
+            {
+
+                if (cene[i] >= cene[i + 1])
+                {
+                    opadajuce = true;
+                }
+                else
+                {
+                    opadajuce = false;
+                    break;
+                }
+            }
+            if (opadajuce == true)
+            {
+                return rez = "opadajuce";
+            }
+            else
+            {
+                return rez = "varira";
+            }
+        }
+
+
+
+        //19
+
+        public string metoda19(DateTime dat, Bina bin)
+        {
+
+            DateTime min = DateTime.MaxValue;
+            DateTime max = DateTime.MinValue;
+            int trajanjePoslednjeg = 0;
+
+            foreach (Dan d in programPoDanima)
+            {
+                if (d.Datum == dat)
+                {
+                    foreach (Izvodjac i in d.spisakIzvodjaca)
+                    {
+                        if (i.Bina.Ime == bin.Ime && i.vreme < min)
+                        {
+                            min = i.vreme;
+                        }
+                    }
+                }
+            }
+
+            foreach (Dan d in programPoDanima)
+            {
+                if (d.Datum == dat)
+                {
+                    foreach (Izvodjac i in d.spisakIzvodjaca)
+                    {
+                        if (i.Bina.Ime == bin.Ime && i.vreme > max)
+                        {
+                            max = i.vreme;
+                            trajanjePoslednjeg = i.TrajanjeNastupa;
+                        }
+                    }
+                }
+            }
+
+            return string.Format("{0},{1}", min, max.AddMinutes(trajanjePoslednjeg));
+        }
+
+
+        //20. 
+
+        public string metoda20()
+        {
+            string rez = "";
+            List<DateTime> datumi = new List<DateTime>();
+
+            foreach (Dan d in programPoDanima)
+            {
+                if (!datumi.Contains(d.Datum)) datumi.Add(d.Datum);
+            }
+
+            for (int i = 0; i < datumi.Count; i++)
+            {
+                for (int j = 0; j < datumi.Count; j++)
+                {
+                    if (datumi[i] > datumi[j])
+                    {
+                        DateTime pom = datumi[i];
+                        datumi[i] = datumi[j];
+                        datumi[j] = pom;
+                    }
+                }
+            }
+
+            foreach (DateTime a in datumi)
+            {
+                int dan = 1;
+                foreach (Dan d in programPoDanima)
+                {
+                    if (a == d.Datum && d.Vrsta == Vrsta.Exit)
+                    {
+                        rez += string.Format("Dan broj: {0}. Datum: {1}. Izvodjaci:", dan, d.Datum);
+                        foreach (Izvodjac i in d.spisakIzvodjaca)
+                        {
+                            rez += string.Format("{0}", i.Naziv);
+                        }
+
+                    }
+                }
+                dan++;
+            }
+
+            foreach (DateTime a in datumi)
+            {
+                int dan = 1;
+                foreach (Dan d in programPoDanima)
+                {
+                    if (a == d.Datum && d.Vrsta == Vrsta.SeaDance)
+                    {
+                        rez += string.Format("Dan broj: {0}. Datum: {1}. Izvodjaci:", dan, d.Datum);
+                        foreach (Izvodjac i in d.spisakIzvodjaca)
+                        {
+                            rez += string.Format("{0}", i.Naziv);
+                        }
+
+                    }
+                }
+                dan++;
+            }
+            return rez;
+
+        }
+
+
 
 
         static void Main(string[] args)

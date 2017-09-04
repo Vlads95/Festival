@@ -13,16 +13,18 @@ namespace Biblioteka
         string ime;
         string lokacija;
 
-
-        public Bina(
-           string ime,
-        string lokacija 
-            )
+        public Bina(string ime, string lokacija)
         {
-
-            this.ime = ime;
-            this.lokacija = lokacija;
+            Ime = ime;
+            Lokacija = lokacija;
         }
+
+
+        
+
+
+
+
 
         public string Ime { get => ime; set => ime = value; }
         public string Lokacija { get => lokacija; set => lokacija = value; }

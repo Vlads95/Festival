@@ -34,6 +34,9 @@ namespace Biblioteka
         public Bina Bina { get => bina; set => bina = value; }
         public double Honorar { get => honorar; set => honorar = value; }
 
+
+
+
         public bool  daLiJeStranac ()
         {
             if (Zemlja.Equals("SRB"))
